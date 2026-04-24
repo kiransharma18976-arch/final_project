@@ -5,11 +5,12 @@ import time
 from gtts import gTTS
 import os
 import random
+from datetime import datetime
 
 # --- 1. Page Configuration ---
-st.set_page_config(page_title="Sentinel Drive AI", layout="wide")
+st.set_page_config(page_title="Sentinel Drive AI - Sovereign Edition", layout="wide")
 
-# --- 2. Pink Dynamic CSS ---
+# --- 2. Advanced Pink & Glassmorphism CSS ---
 st.markdown("""
 <style>
     [data-testid="stAppViewContainer"] {
@@ -17,32 +18,16 @@ st.markdown("""
         background-size: 400% 400%;
         animation: pinkGradient 15s ease infinite;
     }
-    @keyframes pinkGradient {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-    .article-box {
-        background: rgba(255, 255, 255, 0.9);
-        padding: 25px; border-radius: 15px;
-        border-left: 8px solid #d81b60; color: #333; line-height: 1.7;
-    }
-    .auth-container {
-        background: white; padding: 30px; border-radius: 20px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 1px solid #ffccd5;
-    }
-    .sidebar-header {
-        background: #d81b60; color: white; padding: 10px;
-        border-radius: 8px; text-align: center; font-weight: bold;
-        margin-top: 15px; margin-bottom: 10px;
-    }
-    h1, h2, h3, h4 { color: #880e4f !important; }
-    label { color: #880e4f !important; font-weight: bold !important; }
-    .stButton>button { background: #d81b60; color: white; width: 100%; border-radius: 8px;}
+    @keyframes pinkGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    .article-box { background: rgba(255, 255, 255, 0.85); padding: 20px; border-radius: 15px; border-left: 8px solid #d81b60; }
+    .stMetric { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    .stButton>button { background: #d81b60; color: white; border-radius: 10px; font-weight: bold; height: 3em; border: none; width: 100%;}
+    .stButton>button:hover { background: #ad1457; transform: translateY(-2px); }
+    .auth-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 </style>
 """, unsafe_allow_html=True)
 
-# --- 3. Functional Engines ---
+# --- 3. Core Functional Engines ---
 def speak(text):
     try:
         tts = gTTS(text=text, lang='en')
@@ -50,119 +35,148 @@ def speak(text):
         st.audio("sentinel_voice.mp3", format="audio/mp3", autoplay=True)
     except: pass
 
-# --- 4. Session State ---
-if 'logged_in' not in st.session_state:
-    st.session_state['logged_in'] = False
+def add_log(event, status):
+    if 'logs' not in st.session_state: st.session_state.logs = []
+    st.session_state.logs.append({"Time": datetime.now().strftime("%H:%M:%S"), "Event": event, "Status": status})
+
+# --- 4. Session State Init ---
+if 'logged_in' not in st.session_state: st.session_state['logged_in'] = False
+if 'logs' not in st.session_state: st.session_state['logs'] = []
+if 'users_db' not in st.session_state: st.session_state['users_db'] = {"admin": "1234"} # Default user
 
 # ----------------- UI LOGIC -----------------
 
 if not st.session_state['logged_in']:
-    # LANDING PAGE
-    st.markdown("<h1 style='text-align:center;'>🌐 SENTINEL DRIVE: THE AI GUARDIAN</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align:center;'>🌐 SENTINEL DRIVE AI: THE SOVEREIGN</h1>", unsafe_allow_html=True)
     st.write("---")
-    col_art, col_log = st.columns([1.8, 1.2])
+    col_art, col_log = st.columns([1.6, 1.4])
 
     with col_art:
         st.markdown("### 📢 Intelligence & Safety Journal")
-        st.markdown("""
-        <div class='article-box'>
-            <marquee direction="up" scrollamount="4" style="height: 400px;">
-                <h4 style='color:#d81b60;'>1. The Physics of Saving Lives</h4>
-                <p>90% of crashes involve human error. A human takes 1.5 seconds to react, but Sentinel AI scans in 0.01 seconds. Predicting impact 5 seconds early gives drivers the critical time needed to avoid fatal collisions.</p>
-                <br>
-                <h4 style='color:#d81b60;'>2. Fatigue: The Highway's Silent Killer</h4>
-                <p>Drowsy driving causes 20% of fatal highway crashes. Our gaze tracking technology monitors eyelids and pupil dilation to detect microsleep before it happens, triggering alarms to keep you awake.</p>
-                <br>
-                <h4 style='color:#d81b60;'>3. V2V Digital Shield</h4>
-                <p>Connected vehicles create a swarm intelligence. If a car 200 meters ahead hits its emergency brakes, your vehicle receives that data via radio signals before you can even see the brake lights.</p>
-            </marquee>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("""<div class='article-box'><marquee direction="up" scrollamount="3" style="height: 380px;">
+        <h4 style='color:#d81b60;'>🔥 Thermal Night Vision 2.0</h4><p>Now detects pedestrians and animals 300 meters away in pitch black.</p><br>
+        <h4 style='color:#d81b60;'>🧠 Neural Fatigue Tracking</h4><p>AI monitors brainwave patterns through eye-reflex to prevent microsleep.</p><br>
+        <h4 style='color:#d81b60;'>🛰️ Global SOS Network</h4><p>Emergency beacon connects via Starlink if cellular network fails.</p><br>
+        <h4 style='color:#d81b60;'>🆕 Multi-User Access</h4><p>New drivers can now register and create personal safety profiles.</p>
+        </marquee></div>""", unsafe_allow_html=True)
 
     with col_log:
-        st.markdown("<div class='auth-container'>", unsafe_allow_html=True)
-        t1, t2 = st.tabs(["🔐 Login", "📝 Register"])
-        with t1:
-            u = st.text_input("User ID", key="l_u")
-            p = st.text_input("Password", type="password", key="l_p")
-            if st.button("Enter Dashboard"):
-                if u and p: st.session_state['logged_in'] = True; st.rerun()
-        with t2:
-            st.text_input("Full Name", key="r_n"); st.text_input("Set Access Key", type="password", key="r_p")
-            st.button("Create Account")
+        st.markdown("<div class='auth-card'>", unsafe_allow_html=True)
+        tab1, tab2 = st.tabs(["🔑 Login", "📝 Register New User"])
+        
+        with tab1:
+            u_login = st.text_input("Username", key="login_u")
+            p_login = st.text_input("Password", type="password", key="login_p")
+            if st.button("Unlock Dashboard"):
+                if u_login in st.session_state['users_db'] and st.session_state['users_db'][u_login] == p_login:
+                    speak(f"Welcome back {u_login}. System initialized.")
+                    st.session_state['logged_in'] = True
+                    st.rerun()
+                else:
+                    st.error("Invalid Credentials")
+        
+        with tab2:
+            u_reg = st.text_input("Create Username", key="reg_u")
+            p_reg = st.text_input("Create Password", type="password", key="reg_p")
+            if st.button("Create Account"):
+                if u_reg and p_reg:
+                    st.session_state['users_db'][u_reg] = p_reg
+                    st.success("Account Created! You can now login.")
+                    speak("Account successfully created.")
+                else:
+                    st.warning("Please fill all fields.")
         st.markdown("</div>", unsafe_allow_html=True)
 
 else:
-    st.sidebar.title("🛡️ Sentinel Guard")
-    st.sidebar.markdown("<div class='sidebar-header'>AI SAFETY MENU</div>", unsafe_allow_html=True)
-    
-    choice = st.sidebar.radio("Select Feature", [
-        "1. Risk Prediction", "2. Environmental Grip AI", "3. Pothole Radar", 
-        "4. V2V Link", "5. AI Face Scan", "6. Live Monitor", "7. Voice Status", "8. Exit"
+    # --- SIDEBAR NAVIGATION ---
+    st.sidebar.markdown("### 🛠️ CONTROL PANEL")
+    choice = st.sidebar.selectbox("Active Feature", [
+        "1. Live Telemetry", "2. Risk Prediction", "3. Environment & Grip", 
+        "4. Pothole Radar", "5. V2V Digital Link", "6. AI Face Scan (Alcohol/Sleep)", 
+        "7. Night Vision Mode", "8. Live Map Tracker", "9. Voice Status", "10. Black Box Logs"
     ])
-
-    if st.sidebar.button("Logout"):
+    
+    if st.sidebar.button("System Shutdown"):
+        speak("Sentinel shutting down. Drive safely.")
         st.session_state['logged_in'] = False; st.rerun()
+
+    st.write(f"## {choice}")
+
+    # 1. LIVE TELEMETRY
+    if "1." in choice:
+        col_a, col_b, col_c = st.columns(3)
+        col_a.metric("Focus Score", "98%", "Stable")
+        col_b.metric("Tire Temp", "42°C", "+2°")
+        col_c.metric("Battery", "88%", "-1%")
+        st.line_chart(pd.DataFrame(np.random.randn(15, 1) + 60, columns=['Speed']))
+        if st.button("Analyze Stats"): speak("System health is optimal. Efficiency at 98 percent.")
+
+    # 2. RISK PREDICTION
+    elif "2." in choice:
+        spd = st.slider("Vehicle Speed", 0, 200, 80)
+        if st.button("Predict Accident Probability"):
+            if spd > 110:
+                st.error("HIGH DANGER: Collision probability is 75%"); speak("Danger! Reduce speed. High risk of collision.")
+                add_log("High Risk", f"Speed {spd}")
+            else:
+                st.success("Safe Zone."); speak("You are in a safe speed zone.")
+
+    # 3. ENVIRONMENT
+    elif "3." in choice:
+        env = st.radio("Current Weather", ["Dry", "Wet", "Icy"])
+        if st.button("Calculate Grip"):
+            res = "Grip 90%" if env == "Dry" else "Grip 40%"
+            st.warning(res); speak(f"Warning. Road is {env}. Grip level reduced.")
+            add_log("Weather Alert", env)
+
+    # 4. POTHOLE RADAR
+    elif "4." in choice:
+        if st.button("Scan Road Geometry"):
+            msg = "Potholes detected in 50 meters!"
+            st.error(msg); speak(msg); add_log("Hazard", "Pothole")
+
+    # 5. V2V LINK
+    elif "5." in choice:
+        dist = st.number_input("Front Car Distance (m)", value=25)
+        if st.button("Sync V2V"):
+            if dist < 10:
+                st.error("Critical Proximity!"); speak("Warning. Too close to the front vehicle.")
+            else:
+                st.success("Synchronized."); speak("Distance synchronized with front vehicle.")
+
+    # 6. FACE SCAN (ALCOHOL/SLEEP)
+    elif "6." in choice:
+        img = st.camera_input("AI Biometric Scan")
+        if img:
+            status = random.choice(["Fit", "Drowsy", "Intoxicated"])
+            if status == "Fit":
+                st.success("Driver Fit."); speak("Driver fit. Ignition unlocked.")
+            else:
+                st.error(f"Alert: Driver {status}"); speak(f"Warning! Driver is {status}. Emergency SOS initiated."); add_log("Driver Condition", status)
+
+    # 7. NIGHT VISION
+    elif "7." in choice:
+        st.info("Thermal Contrast Mode Active")
+        st.image("https://wikimedia.org", caption="Thermal Feed (Object Detection)", use_column_width=True)
+        if st.button("Scan Dark Zones"): speak("Night vision active. Heat signature detected near lane 2.")
+
+    # 8. LIVE MAP
+    elif "8." in choice:
+        st.write("Tracking Active Incident Zones...")
+        # Random coordinates around Delhi for demo
+        df_map = pd.DataFrame({'lat': [28.6139, 28.6210, 28.6100], 'lon': [77.2090, 77.2150, 77.2000]})
+        st.map(df_map)
+        if st.button("Update Map"): speak("Map updated. Two accident zones detected nearby. Re-routing recommended.")
+
+    # 9. VOICE STATUS
+    elif "9." in choice:
+        if st.button("System Diagnostic"): speak("All sensors are active. Satellite link established. Oxygen levels normal. All systems go.")
+
+    # 10. BLACK BOX
+    elif "10." in choice:
+        if st.session_state.logs:
+            st.table(pd.DataFrame(st.session_state.logs))
+        else: st.write("No logs."); speak("Black box data is empty.")
 
     st.write("---")
-
-    # --- Feature Implementation ---
-    if "1." in choice:
-        st.header("Accident Risk Assessment")
-        spd = st.slider("Current Speed km/h", 0, 160, 65)
-        if st.button("Analyze"):
-            if spd > 90:
-                st.error("HIGH RISK! SLOW DOWN."); speak("High Risk! Slow down.")
-            else:
-                st.success("Safe speed maintained."); speak("Safe speed.")
-
-    elif "2." in choice:
-        st.header("AI Environmental Grip Sensor")
-        weather = st.selectbox("Current Weather", ["Sunny", "Heavy Rain", "Snow/Ice", "Dense Fog"])
-        if st.button("Analyze Road Friction"):
-            if weather == "Sunny":
-                st.success("Grip Level: 95% (Optimal). Safe to maintain speed.")
-                speak("Road grip is optimal.")
-            else:
-                risk_pct = random.randint(70, 90)
-                st.warning(f"CAUTION: Grip reduced by {risk_pct}%. Braking distance increased by 3x.")
-                speak("Caution. Road friction is low. Maintain safe distance.")
-
-    elif "3." in choice:
-        st.header("Pothole Surface Radar")
-        if st.button("Initiate Scan"):
-            detect = random.choice(["Yes", "No"])
-            if detect == "Yes":
-                st.error("Alert! Potholes detected 100m ahead."); speak("Potholes ahead.")
-            else:
-                st.success("Road surface is clear."); speak("Road clear.")
-
-    elif "4." in choice:
-        st.header("V2V Safety Status")
-        dist = st.slider("Distance to Front Vehicle (m)", 0, 50, 20)
-        if st.button("Check Mesh Link"):
-            if dist < 15:
-                st.error("V2V Alert! Maintain distance."); speak("Maintain distance.")
-            else:
-                st.success("Safe V2V distance."); speak("Safe distance.")
-
-    elif "5." in choice or "6." in choice:
-        st.header("AI Vision & Face Scan")
-        img = st.camera_input("Look at the camera for AI verification")
-        if img:
-            with st.spinner("Analyzing sensors..."):
-                time.sleep(2)
-                alc = random.choice(["Negative", "Positive"])
-                if alc == "Positive":
-                    st.error("UNSAFE: Alcohol detected. Ignition locked."); speak("Ignition locked.")
-                else:
-                    st.success("Driver Fit. Engine Started."); speak("Driver safe. Engine started.")
-
-    elif "7." in choice:
-        st.header("AI Voice Assistant")
-        speak("I am Sentinel AI Safety Assistant. All systems are operational.")
-        st.info("Voice Assistant is Active.")
-
-    elif "8." in choice:
-        speak("Exiting. Drive safe!")
-        st.session_state['logged_in'] = False; st.rerun()
+    st.caption("Sentinel Drive AI - Sovereign Pro Edition | Satellite Connectivity Enabled")
