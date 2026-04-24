@@ -8,22 +8,75 @@ import random
 from datetime import datetime
 
 # --- 1. Page Configuration ---
-st.set_page_config(page_title="Sentinel Drive AI - Sovereign Edition", layout="wide")
+st.set_page_config(page_title="Sentinel Drive AI - Dark Edition", layout="wide")
 
-# --- 2. Advanced Pink & Glassmorphism CSS ---
+# --- 2. High-Contrast Dark & Neon CSS ---
 st.markdown("""
 <style>
+    /* Main Background - Deep Dark Blue */
     [data-testid="stAppViewContainer"] {
-        background: linear-gradient(-45deg, #ffdde1, #ee9ca7, #ffafbd, #ffc3a0);
-        background-size: 400% 400%;
-        animation: pinkGradient 15s ease infinite;
+        background-color: #0e1117;
+        background-image: linear-gradient(180deg, #0e1117 0%, #07090d 100%);
     }
-    @keyframes pinkGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-    .article-box { background: rgba(255, 255, 255, 0.85); padding: 20px; border-radius: 15px; border-left: 8px solid #d81b60; }
-    .stMetric { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-    .stButton>button { background: #d81b60; color: white; border-radius: 10px; font-weight: bold; height: 3em; border: none; width: 100%;}
-    .stButton>button:hover { background: #ad1457; transform: translateY(-2px); }
-    .auth-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    
+    /* Sidebar Styling */
+    [data-testid="stSidebar"] {
+        background-color: #161b22 !important;
+        border-right: 1px solid #30363d;
+    }
+
+    /* Professional Article Box */
+    .article-box { 
+        background: #1c2128; 
+        padding: 20px; 
+        border-radius: 12px; 
+        border: 1px solid #30363d; 
+        color: #adbac7; 
+        line-height: 1.6;
+    }
+
+    /* ALL TEXT Visibility - White/Cyan for contrast */
+    h1, h2, h3, h4, label, p, span { 
+        color: #58a6ff !important; 
+        font-family: 'Segoe UI', sans-serif;
+    }
+    
+    /* Metrics Styling */
+    .stMetric { 
+        background: #161b22; 
+        padding: 15px; 
+        border-radius: 10px; 
+        border: 1px solid #30363d;
+    }
+    [data-testid="stMetricValue"] { color: #39d353 !important; font-weight: bold; }
+
+    /* Button Styling - Neon Blue */
+    .stButton>button { 
+        background-color: #238636; 
+        color: white !important; 
+        border-radius: 8px; 
+        border: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    .stButton>button:hover { 
+        background-color: #2ea043;
+        box-shadow: 0 0 15px #2ea043;
+    }
+
+    /* Auth Card Visibility */
+    .auth-card { 
+        background: #161b22; 
+        padding: 40px; 
+        border-radius: 15px; 
+        border: 1px solid #30363d;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    /* Tabs Visibility */
+    .stTabs [data-baseweb="tab-list"] { background-color: transparent; }
+    .stTabs [data-baseweb="tab"] { color: #8b949e !important; }
+    .stTabs [aria-selected="true"] { color: #58a6ff !important; border-bottom-color: #58a6ff !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -42,141 +95,124 @@ def add_log(event, status):
 # --- 4. Session State Init ---
 if 'logged_in' not in st.session_state: st.session_state['logged_in'] = False
 if 'logs' not in st.session_state: st.session_state['logs'] = []
-if 'users_db' not in st.session_state: st.session_state['users_db'] = {"admin": "1234"} # Default user
+if 'users_db' not in st.session_state: st.session_state['users_db'] = {"admin": "1234"}
 
 # ----------------- UI LOGIC -----------------
 
 if not st.session_state['logged_in']:
-    st.markdown("<h1 style='text-align:center;'>🌐 SENTINEL DRIVE AI: THE SOVEREIGN</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align:center;'>🌌 SENTINEL DRIVE AI: THE SOVEREIGN</h1>", unsafe_allow_html=True)
     st.write("---")
     col_art, col_log = st.columns([1.6, 1.4])
 
     with col_art:
         st.markdown("### 📢 Intelligence & Safety Journal")
-        st.markdown("""<div class='article-box'><marquee direction="up" scrollamount="3" style="height: 380px;">
-        <h4 style='color:#d81b60;'>🔥 Thermal Night Vision 2.0</h4><p>Now detects pedestrians and animals 300 meters away in pitch black.</p><br>
-        <h4 style='color:#d81b60;'>🧠 Neural Fatigue Tracking</h4><p>AI monitors brainwave patterns through eye-reflex to prevent microsleep.</p><br>
-        <h4 style='color:#d81b60;'>🛰️ Global SOS Network</h4><p>Emergency beacon connects via Starlink if cellular network fails.</p><br>
-        <h4 style='color:#d81b60;'>🆕 Multi-User Access</h4><p>New drivers can now register and create personal safety profiles.</p>
+        st.markdown("""<div class='article-box'><marquee direction="up" scrollamount="2" style="height: 380px;">
+        <h4 style='color:#58a6ff;'>🔥 Thermal Night Vision 2.0</h4><p>Pedestrian detection active up to 300m.</p><br>
+        <h4 style='color:#58a6ff;'>🧠 Neural Fatigue Tracking</h4><p>Microsleep prevention sensors online.</p><br>
+        <h4 style='color:#58a6ff;'>🛰️ Global SOS Network</h4><p>Satellite mesh connectivity established.</p><br>
+        <h4 style='color:#58a6ff;'>🆕 Multi-User Access</h4><p>Create your safety profile in the register tab.</p>
         </marquee></div>""", unsafe_allow_html=True)
 
     with col_log:
         st.markdown("<div class='auth-card'>", unsafe_allow_html=True)
-        tab1, tab2 = st.tabs(["🔑 Login", "📝 Register New User"])
+        tab1, tab2 = st.tabs(["🔑 Login", "📝 Register"])
         
         with tab1:
             u_login = st.text_input("Username", key="login_u")
             p_login = st.text_input("Password", type="password", key="login_p")
             if st.button("Unlock Dashboard"):
                 if u_login in st.session_state['users_db'] and st.session_state['users_db'][u_login] == p_login:
-                    speak(f"Welcome back {u_login}. System initialized.")
-                    st.session_state['logged_in'] = True
-                    st.rerun()
-                else:
-                    st.error("Invalid Credentials")
+                    speak(f"Access granted. Welcome {u_login}.")
+                    st.session_state['logged_in'] = True; st.rerun()
+                else: st.error("Invalid Access Key")
         
         with tab2:
-            u_reg = st.text_input("Create Username", key="reg_u")
-            p_reg = st.text_input("Create Password", type="password", key="reg_p")
-            if st.button("Create Account"):
+            u_reg = st.text_input("New Username", key="reg_u")
+            p_reg = st.text_input("New Password", type="password", key="reg_p")
+            if st.button("Initialize Account"):
                 if u_reg and p_reg:
                     st.session_state['users_db'][u_reg] = p_reg
-                    st.success("Account Created! You can now login.")
-                    speak("Account successfully created.")
-                else:
-                    st.warning("Please fill all fields.")
+                    st.success("Registration Successful!"); speak("Account created.")
+                else: st.warning("Fields cannot be empty.")
         st.markdown("</div>", unsafe_allow_html=True)
 
 else:
-    # --- SIDEBAR NAVIGATION ---
-    st.sidebar.markdown("### 🛠️ CONTROL PANEL")
-    choice = st.sidebar.selectbox("Active Feature", [
+    # --- SIDEBAR ---
+    st.sidebar.markdown("## 🛠️ CONTROL UNIT")
+    choice = st.sidebar.selectbox("Select System", [
         "1. Live Telemetry", "2. Risk Prediction", "3. Environment & Grip", 
         "4. Pothole Radar", "5. V2V Digital Link", "6. AI Face Scan (Alcohol/Sleep)", 
         "7. Night Vision Mode", "8. Live Map Tracker", "9. Voice Status", "10. Black Box Logs"
     ])
     
-    if st.sidebar.button("System Shutdown"):
-        speak("Sentinel shutting down. Drive safely.")
-        st.session_state['logged_in'] = False; st.rerun()
+    if st.sidebar.button("Shutdown System"):
+        speak("Sentinel system off."); st.session_state['logged_in'] = False; st.rerun()
 
-    st.write(f"## {choice}")
+    st.markdown(f"## {choice}")
 
     # 1. LIVE TELEMETRY
     if "1." in choice:
-        col_a, col_b, col_c = st.columns(3)
-        col_a.metric("Focus Score", "98%", "Stable")
-        col_b.metric("Tire Temp", "42°C", "+2°")
-        col_c.metric("Battery", "88%", "-1%")
-        st.line_chart(pd.DataFrame(np.random.randn(15, 1) + 60, columns=['Speed']))
-        if st.button("Analyze Stats"): speak("System health is optimal. Efficiency at 98 percent.")
+        c1, c2, c3 = st.columns(3)
+        c1.metric("AI Focus", "98%", "Optimal")
+        c2.metric("Engine Temp", "42°C", "Stable")
+        c3.metric("System Core", "88%", "Cool")
+        st.line_chart(pd.DataFrame(np.random.randn(20, 1) + 65, columns=['Speed km/h']))
+        if st.button("Diagnostic Report"): speak("All telemetry data within safe parameters.")
 
     # 2. RISK PREDICTION
     elif "2." in choice:
-        spd = st.slider("Vehicle Speed", 0, 200, 80)
-        if st.button("Predict Accident Probability"):
+        spd = st.slider("Set Speed", 0, 200, 75)
+        if st.button("Analyze Risk Profile"):
             if spd > 110:
-                st.error("HIGH DANGER: Collision probability is 75%"); speak("Danger! Reduce speed. High risk of collision.")
-                add_log("High Risk", f"Speed {spd}")
-            else:
-                st.success("Safe Zone."); speak("You are in a safe speed zone.")
+                st.error("CRITICAL RISK!"); speak("Danger. Speed exceeds safe limits."); add_log("High Risk", f"Speed {spd}")
+            else: st.success("Safe Operations."); speak("Speed is within safety range.")
 
     # 3. ENVIRONMENT
     elif "3." in choice:
-        env = st.radio("Current Weather", ["Dry", "Wet", "Icy"])
-        if st.button("Calculate Grip"):
-            res = "Grip 90%" if env == "Dry" else "Grip 40%"
-            st.warning(res); speak(f"Warning. Road is {env}. Grip level reduced.")
-            add_log("Weather Alert", env)
+        env = st.radio("Current Weather Data", ["Dry/Sunny", "Heavy Rain", "Snow/Ice"])
+        if st.button("Analyze Grip"):
+            speak(f"Weather scan complete. Road is {env}. Adjusting traction control."); add_log("Environment", env)
 
     # 4. POTHOLE RADAR
     elif "4." in choice:
-        if st.button("Scan Road Geometry"):
-            msg = "Potholes detected in 50 meters!"
-            st.error(msg); speak(msg); add_log("Hazard", "Pothole")
+        if st.button("Activate Ground Radar"):
+            st.warning("Potholes ahead!"); speak("Warning. Surface irregularities detected ahead."); add_log("Hazard", "Pothole")
 
     # 5. V2V LINK
     elif "5." in choice:
-        dist = st.number_input("Front Car Distance (m)", value=25)
-        if st.button("Sync V2V"):
-            if dist < 10:
-                st.error("Critical Proximity!"); speak("Warning. Too close to the front vehicle.")
-            else:
-                st.success("Synchronized."); speak("Distance synchronized with front vehicle.")
+        dist = st.number_input("Proximity to Lead Vehicle (m)", value=30)
+        if st.button("Sync Mesh"):
+            if dist < 12: st.error("Collision Alert!"); speak("Warning. Dangerous proximity.")
+            else: st.success("Mesh Stable."); speak("Distance synchronized with swarm intelligence.")
 
-    # 6. FACE SCAN (ALCOHOL/SLEEP)
+    # 6. FACE SCAN
     elif "6." in choice:
-        img = st.camera_input("AI Biometric Scan")
+        img = st.camera_input("Biometric Authentication")
         if img:
             status = random.choice(["Fit", "Drowsy", "Intoxicated"])
-            if status == "Fit":
-                st.success("Driver Fit."); speak("Driver fit. Ignition unlocked.")
-            else:
-                st.error(f"Alert: Driver {status}"); speak(f"Warning! Driver is {status}. Emergency SOS initiated."); add_log("Driver Condition", status)
+            if status == "Fit": st.success("Status: FIT"); speak("Driver state optimal. Enjoy your drive.")
+            else: st.error(f"Status: {status}"); speak(f"Alert! Driver is {status}. System lock engaged."); add_log("Driver Condition", status)
 
     # 7. NIGHT VISION
     elif "7." in choice:
-        st.info("Thermal Contrast Mode Active")
-        st.image("https://wikimedia.org", caption="Thermal Feed (Object Detection)", use_column_width=True)
-        if st.button("Scan Dark Zones"): speak("Night vision active. Heat signature detected near lane 2.")
+        st.image("https://wikimedia.org", caption="Active Thermal Tracking", use_container_width=True)
+        if st.button("Thermal Scan"): speak("Infrared scanners active. Path is clear.")
 
     # 8. LIVE MAP
     elif "8." in choice:
-        st.write("Tracking Active Incident Zones...")
-        # Random coordinates around Delhi for demo
-        df_map = pd.DataFrame({'lat': [28.6139, 28.6210, 28.6100], 'lon': [77.2090, 77.2150, 77.2000]})
+        st.write("Tracking Swarm Location Data...")
+        df_map = pd.DataFrame({'lat': [28.61, 28.62, 28.615], 'lon': [77.20, 77.21, 77.205]})
         st.map(df_map)
-        if st.button("Update Map"): speak("Map updated. Two accident zones detected nearby. Re-routing recommended.")
+        if st.button("Sync Map"): speak("Navigation database updated. Avoiding congested risk zones.")
 
     # 9. VOICE STATUS
     elif "9." in choice:
-        if st.button("System Diagnostic"): speak("All sensors are active. Satellite link established. Oxygen levels normal. All systems go.")
+        if st.button("System Health Check"): speak("All primary and secondary systems are functional. Global positioning active.")
 
     # 10. BLACK BOX
     elif "10." in choice:
-        if st.session_state.logs:
-            st.table(pd.DataFrame(st.session_state.logs))
-        else: st.write("No logs."); speak("Black box data is empty.")
+        if st.session_state.logs: st.table(pd.DataFrame(st.session_state.logs))
+        else: st.info("No safety incidents logged."); speak("Black box memory is clear.")
 
     st.write("---")
-    st.caption("Sentinel Drive AI - Sovereign Pro Edition | Satellite Connectivity Enabled")
+    st.caption("Sentinel Drive AI - Sovereign Pro Edition | Dark Mode Enabled")
